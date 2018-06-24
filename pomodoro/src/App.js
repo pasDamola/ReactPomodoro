@@ -80,7 +80,7 @@ class ResetButton extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn btn-secondary">Reset ME now</button>
+        <button className="btn btn-secondary">Reset</button>
       </div>
     );
   }
