@@ -59,7 +59,7 @@ class BreakLength extends React.Component {
 class StartButton extends React.Component {
   render() {
     return (
-      <div style={{marginRight: 5}}>
+      <div style={{ marginRight: 5 }}>
         <button className="btn btn-success">Start</button>
       </div>
     );
@@ -69,7 +69,7 @@ class StartButton extends React.Component {
 class StopButton extends React.Component {
   render() {
     return (
-      <div style={{marginRight: 5}}>
+      <div style={{ marginRight: 5 }}>
         <button className="btn btn-danger">Stop</button>
       </div>
     );
@@ -80,7 +80,7 @@ class ResetButton extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn btn-secondary">Reset</button>
+        <button className="btn btn-secondary">Reset ME now</button>
       </div>
     );
   }
@@ -106,10 +106,10 @@ class Pomodoro extends React.Component {
         <div class="row">&nbsp;</div>
         <div class="row" style={{ paddingLeft: 100 }}>
           <div class="col-md-4"></div>
-            <StopButton />
-            <StartButton />
-            <ResetButton />
-        
+          <StopButton />
+          <StartButton />
+          <ResetButton />
+
         </div>
       </div>
     );
