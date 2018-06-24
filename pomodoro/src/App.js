@@ -5,7 +5,7 @@ import './App.css';
 class Timer extends React.Component {
   render() {
     return (
-      <h1>25:00</h1>
+      <h1 style={{ fontSize: 100 }}>25:00</h1>
     );
   }
 
@@ -59,7 +59,7 @@ class BreakLength extends React.Component {
 class StartButton extends React.Component {
   render() {
     return (
-      <div>
+      <div style={{marginRight: 5}}>
         <button className="btn btn-success">Start</button>
       </div>
     );
@@ -69,7 +69,7 @@ class StartButton extends React.Component {
 class StopButton extends React.Component {
   render() {
     return (
-      <div>
+      <div style={{marginRight: 5}}>
         <button className="btn btn-danger">Stop</button>
       </div>
     );
@@ -91,14 +91,26 @@ class ResetButton extends React.Component {
 class Pomodoro extends React.Component {
   render() {
     return (
-
-      <div class="row" style={{ paddingTop: 100 }}>
-        <div class="col-md-3"></div>
-        <BreakLength />
-        <TimerLength />
+      <div>
+        <div class="row" style={{ paddingTop: 100 }}>
+          <div class="col-md-3"></div>
+          <BreakLength />
+          <TimerLength />
+        </div>
+        <div class="row" style={{ paddingLeft: 50 }}>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <Timer />
+          </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row" style={{ paddingLeft: 100 }}>
+          <div class="col-md-4"></div>
+            <StopButton />
+            <StartButton />
+            <ResetButton />
         
-       
-       
+        </div>
       </div>
     );
   }
