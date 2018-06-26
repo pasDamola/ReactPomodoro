@@ -46,19 +46,23 @@ class TimerLength extends React.Component {
 
 class BreakLength extends React.Component {
 
+  constructor(props){
+    super(props);
+  }
+
   render() {
     return (
       <div class="col-md-4">
         <p class="text center lead">Break length</p>
         <div class="btn-group btn-group" role="group" aria-label="...">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" id="breakMinus">-</button>
+            <button type="button" class="btn btn-default" onClick={this.props.decrementBreak}>-</button>
           </div>
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary disabled" >5</button>
+            <button type="button" class="btn btn-primary disabled" >{this.props.breakTime}</button>
           </div>
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default">+</button>
+            <button type="button" class="btn btn-default" onClick={this.props.incrementBreak}>+</button>
           </div>
         </div>
       </div>
@@ -108,11 +112,14 @@ class Pomodoro extends React.Component {
     super(props);
 
     this.state = {
-      time: 25
+      breakTime : 5,
+      time : 25
     }
     this.startCountDown = this.startCountDown.bind(this);
     this.increment = this.increment.bind(this);
     this.decrement = this.decrement.bind(this);
+    this.incrementBreak = this.incrementBreak.bind(this);
+    this.decrementBreak = this.decrementBreak.bind(this);
   }
   startCountDown() {
     
@@ -130,13 +137,25 @@ class Pomodoro extends React.Component {
     })
   }
 
+  incrementBreak(){
+    this.setState({
+      breakTime : this.state.breakTime + 1
+    })
+  }
+
+  decrementBreak(){
+    this.setState({
+      breakTime : this.state.breakTime - 1 
+    })
+  }
+
 
   render() {
     return (
       <div>
         <div class="row" style={{ paddingTop: 100 }}>
           <div class="col-md-3"></div>
-          <BreakLength />
+          <BreakLength breakTime = {this.state.breakTime} incrementBreak={this.incrementBreak} decrementBreak={this.decrementBreak}/>
           <TimerLength time={this.state.time} increment={this.increment} decrement={this.decrement} />
         </div>
         <div class="row" style={{ paddingLeft: 50 }}>
