@@ -20,31 +20,35 @@ class Timer extends React.Component {
 
 }
 
-class TimerLength extends React.Component {
+class LongBreak extends React.Component {
   constructor(props){
     super(props);
   }
   render() {
     return (
       <div class="col-md-4">
-        <p class="text center lead">Session length</p>
-        <div class="btn-group btn-group" role="group" aria-label="...">
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" onClick={this.props.decrement}>-</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary disabled">{this.props.time}</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" onClick={this.props.increment}>+</button>
-          </div>
-        </div>
+        <p class="text center lead">Long Break</p>
+        <button type="button" class="btn btn-primary btn-lg" onClick={this.props.longBreak}>10 minutes</button>
       </div>
     );
   }
 }
 
-class BreakLength extends React.Component {
+class Session extends React.Component {
+  constructor(props){
+    super(props);
+  }
+  render() {
+    return (
+      <div class="col-md-4">
+        <p class="text center lead">Session</p>
+        <button type="button" class="btn btn-primary btn-lg" onClick={this.props.session}>25 minutes</button>
+      </div>
+    );
+  }
+}
+
+class ShortBreak extends React.Component {
 
   constructor(props){
     super(props);
@@ -53,18 +57,8 @@ class BreakLength extends React.Component {
   render() {
     return (
       <div class="col-md-4">
-        <p class="text center lead">Break length</p>
-        <div class="btn-group btn-group" role="group" aria-label="...">
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" onClick={this.props.decrementBreak}>-</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary disabled" >{this.props.breakTime}</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" onClick={this.props.incrementBreak}>+</button>
-          </div>
-        </div>
+        <p class="text center lead">Short Break</p>
+        <button type="button" class="btn btn-primary btn-lg" onClick={this.props.shortBreak}>5 minutes</button>
       </div>
     );
   }
@@ -89,7 +83,7 @@ class StopButton extends React.Component {
   render() {
     return (
       <div style={{ marginRight: 5 }}>
-        <button className="btn btn-danger">Stop</button>
+        <button className="btn btn-danger" onClick={this.props.stopCountDown}>Stop</button>
       </div>
     );
   }
@@ -99,7 +93,7 @@ class ResetButton extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn btn-secondary">Reset</button>
+        <button className="btn btn-secondary" onClick={this.props.reset}>Reset</button>
       </div>
     );
   }
@@ -110,59 +104,85 @@ class ResetButton extends React.Component {
 class Pomodoro extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      breakTime : 5,
       time : 25,
       secondsRemaining : '',
-      intervalHandle : ''
-    }
+      minutes : '',
     
+    }
+    this.intervalHandle;
+    this.shortBreak = this.shortBreak.bind(this);
+    this.longBreak = this.longBreak.bind(this);
+    this.session = this.session.bind(this);
     this.startCountDown = this.startCountDown.bind(this);
-    this.increment = this.increment.bind(this);
-    this.decrement = this.decrement.bind(this);
-    this.incrementBreak = this.incrementBreak.bind(this);
-    this.decrementBreak = this.decrementBreak.bind(this);
+    this.stopCountDown = this.stopCountDown.bind(this);
+    this.reset = this.reset.bind(this);
+    this.tick = this.tick.bind(this);
+    
   }
-  startCountDown() {
+
+ tick(){
    this.setState({
-     secondsRemaining : this.state.time * 60,
-     intervalHandle : setInterval(tick, 100)
+     time : this.state.time - 1,
    })
+    
+   const time = this.state.time;
+
+   if(time < 10){
+    this.setState({
+      time : "0" + time,
+    })
+   }
+  
+   if(time === 0){
+     clearInterval(this.intervalHandle);
+   }
+ }
+
+ 
+  startCountDown() {
+      this.intervalHandle =  setInterval(this.tick, 1000)
   }
 
-  increment(){
+  stopCountDown(){
+    clearInterval(this.intervalHandle);
+  }
+
+  reset(){
     this.setState({
-      time : this.state.time + 1
+      time : 10
     })
   }
 
-  decrement(){
+  shortBreak(){
     this.setState({
-      time : this.state.time - 1
+      time: '05'
     })
   }
 
-  incrementBreak(){
-    this.setState({
-      breakTime : this.state.breakTime + 1
-    })
-  }
+ longBreak(){
+  this.setState({
+    time : 10,
+  })
+ }
 
-  decrementBreak(){
-    this.setState({
-      breakTime : this.state.breakTime - 1 
-    })
-  }
+ session(){
+  this.setState({
+    time : 25,
+  })
+ }
+
+ 
 
 
   render() {
     return (
       <div>
-        <div class="row" style={{ paddingTop: 100 }}>
-          <div class="col-md-3"></div>
-          <BreakLength breakTime = {this.state.breakTime} incrementBreak={this.incrementBreak} decrementBreak={this.decrementBreak}/>
-          <TimerLength time={this.state.time} increment={this.increment} decrement={this.decrement} />
+        <div class="row" style={{ paddingTop: 100, paddingLeft:100 }}>
+          <div></div>
+          <ShortBreak shortBreak={this.shortBreak}/>
+          <Session session={this.sesssion} />
+          <LongBreak longBreak={this.longBreak}/>
         </div>
         <div class="row" style={{ paddingLeft: 50 }}>
           <div class="col-md-4"></div>
@@ -173,9 +193,9 @@ class Pomodoro extends React.Component {
         <div class="row">&nbsp;</div>
         <div class="row" style={{ paddingLeft: 100 }}>
           <div class="col-md-4"></div>
-          <StopButton />
+          <StopButton stopCountDown={this.stopCountDown}/>
           <StartButton startCountDown={this.startCountDown} />
-          <ResetButton />
+          <ResetButton reset={this.reset} />
 
         </div>
       </div>
