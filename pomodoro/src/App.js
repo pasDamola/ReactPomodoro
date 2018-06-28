@@ -113,8 +113,11 @@ class Pomodoro extends React.Component {
 
     this.state = {
       breakTime : 5,
-      time : 25
+      time : 25,
+      secondsRemaining : '',
+      intervalHandle : ''
     }
+    
     this.startCountDown = this.startCountDown.bind(this);
     this.increment = this.increment.bind(this);
     this.decrement = this.decrement.bind(this);
@@ -122,7 +125,10 @@ class Pomodoro extends React.Component {
     this.decrementBreak = this.decrementBreak.bind(this);
   }
   startCountDown() {
-    
+   this.setState({
+     secondsRemaining : this.state.time * 60,
+     intervalHandle : setInterval(tick, 100)
+   })
   }
 
   increment(){
