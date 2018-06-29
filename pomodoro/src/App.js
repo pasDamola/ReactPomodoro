@@ -93,7 +93,7 @@ class ResetButton extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn btn-secondary" onClick={this.props.reset}>Reset</button>
+        <button className="btn btn-secondary" onClick={this.props.resetSession}>Reset</button>
       </div>
     );
   }
@@ -116,7 +116,9 @@ class Pomodoro extends React.Component {
     this.session = this.session.bind(this);
     this.startCountDown = this.startCountDown.bind(this);
     this.stopCountDown = this.stopCountDown.bind(this);
-    this.reset = this.reset.bind(this);
+    this.resetSession = this.resetSession.bind(this);
+    this.resetShortBreak = this.resetShortBreak.bind(this);
+    this.resetLongBreak = this.resetLongBreak.bind(this);
     this.tick = this.tick.bind(this);
     
   }
@@ -148,7 +150,19 @@ class Pomodoro extends React.Component {
     clearInterval(this.intervalHandle);
   }
 
-  reset(){
+  resetSession(){
+    this.setState({
+      time : 25
+    })
+  }
+
+  resetShortBreak(){
+    this.setState({
+      time : '05'
+    })
+  }
+
+  resetLongBreak(){
     this.setState({
       time : 10
     })
@@ -181,7 +195,7 @@ class Pomodoro extends React.Component {
         <div class="row" style={{ paddingTop: 100, paddingLeft:100 }}>
           <div></div>
           <ShortBreak shortBreak={this.shortBreak}/>
-          <Session session={this.sesssion} />
+          <Session session={this.session} />
           <LongBreak longBreak={this.longBreak}/>
         </div>
         <div class="row" style={{ paddingLeft: 50 }}>
@@ -195,7 +209,7 @@ class Pomodoro extends React.Component {
           <div class="col-md-4"></div>
           <StopButton stopCountDown={this.stopCountDown}/>
           <StartButton startCountDown={this.startCountDown} />
-          <ResetButton reset={this.reset} />
+          <ResetButton resetSession={this.resetSession} resetLongBreak={this.resetLongBreak} resetShortBreak={this.resetShortBreak}/>
 
         </div>
       </div>
