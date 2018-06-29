@@ -11,7 +11,7 @@ class Timer extends React.Component {
 
     return (
       <div>
-        <h1 style={{ fontSize: 100 }}>{this.props.time }:00</h1>
+        <h1 style={{ fontSize: 100 }}>{this.props.time }:{this.props.seconds}</h1>
 
       </div>
     );
@@ -105,12 +105,15 @@ class Pomodoro extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time : 25,
+      time : '01',
       longBreakTime : 10,
       shortBreakTime : '05',
+      seconds : '00',
+      
     
     }
     this.intervalHandle;
+    this.secondsRemaining;
     this.shortBreak = this.shortBreak.bind(this);
     this.longBreak = this.longBreak.bind(this);
     this.session = this.session.bind(this);
@@ -122,26 +125,51 @@ class Pomodoro extends React.Component {
   }
 
  tick(){
-   this.setState({
-     time : this.state.time - 1,
-   })
-    
-   const time = this.state.time;
 
-   if(time < 10){
+ 
+   var min = Math.floor(this.secondsRemaining / 60);
+   var sec = this.secondsRemaining - (min * 60);
+   console.log(min);
+   console.log(sec);
+
+   this.setState({
+     time : min,
+     seconds : sec,
+   })
+
+   if(sec < 10){
     this.setState({
-      time : "0" + time,
+     seconds : "0" + this.state.seconds,
     })
+ 
    }
+
+   if(min < 10){
+    this.setState({
+     time : "0" + min,
+    })
+ 
+   }
+
+   if(min == 0 & sec == 0){
+       clearInterval(this.intervalHandle);
+   }
+
+
+   this.secondsRemaining--
+
   
-   if(time === 0){
-     clearInterval(this.intervalHandle);
-   }
+  
+   
+  
+  
  }
 
  
   startCountDown() {
-      this.intervalHandle =  setInterval(this.tick, 1000)
+      this.intervalHandle =  setInterval(this.tick, 1000);
+      let time = this.state.time;
+      this.secondsRemaining = time * 60;
   }
 
   stopCountDown(){
@@ -187,7 +215,7 @@ class Pomodoro extends React.Component {
         <div class="row" style={{ paddingLeft: 50 }}>
           <div class="col-md-4"></div>
           <div class="col-md-4">
-            <Timer time={this.state.time}  />
+            <Timer time={this.state.time} seconds={this.state.seconds}  />
           </div>
         </div>
         <div class="row">&nbsp;</div>
