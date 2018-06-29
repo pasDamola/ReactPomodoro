@@ -11,7 +11,7 @@ class Timer extends React.Component {
 
     return (
       <div>
-        <h1 style={{ fontSize: 100 }}>{this.props.time}:00</h1>
+        <h1 style={{ fontSize: 100 }}>{this.props.time }:00</h1>
 
       </div>
     );
@@ -82,32 +82,32 @@ class StartButton extends React.Component {
 class StopButton extends React.Component {
   render() {
     return (
-      <div style={{ marginRight: 5 }}>
+      <div style={{ marginRight: 5, marginLeft:30 }}>
         <button className="btn btn-danger" onClick={this.props.stopCountDown}>Stop</button>
       </div>
     );
   }
 }
 
-class ResetButton extends React.Component {
-  render() {
-    return (
-      <div>
-        <button className="btn btn-secondary" onClick={this.props.resetSession}>Reset</button>
-      </div>
-    );
-  }
+// class ResetButton extends React.Component {
+//   render() {
+//     return (
+//       <div>
+//         <button className="btn btn-secondary" onClick={this.props.resetSession}>Reset</button>
+//       </div>
+//     );
+//   }
 
 
-}
+// }
 
 class Pomodoro extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       time : 25,
-      secondsRemaining : '',
-      minutes : '',
+      longBreakTime : 10,
+      shortBreakTime : '05',
     
     }
     this.intervalHandle;
@@ -117,8 +117,6 @@ class Pomodoro extends React.Component {
     this.startCountDown = this.startCountDown.bind(this);
     this.stopCountDown = this.stopCountDown.bind(this);
     this.resetSession = this.resetSession.bind(this);
-    this.resetShortBreak = this.resetShortBreak.bind(this);
-    this.resetLongBreak = this.resetLongBreak.bind(this);
     this.tick = this.tick.bind(this);
     
   }
@@ -151,23 +149,10 @@ class Pomodoro extends React.Component {
   }
 
   resetSession(){
-    this.setState({
-      time : 25
-    })
+  
   }
 
-  resetShortBreak(){
-    this.setState({
-      time : '05'
-    })
-  }
-
-  resetLongBreak(){
-    this.setState({
-      time : 10
-    })
-  }
-
+  
   shortBreak(){
     this.setState({
       time: '05'
@@ -190,6 +175,7 @@ class Pomodoro extends React.Component {
 
 
   render() {
+   
     return (
       <div>
         <div class="row" style={{ paddingTop: 100, paddingLeft:100 }}>
@@ -201,7 +187,7 @@ class Pomodoro extends React.Component {
         <div class="row" style={{ paddingLeft: 50 }}>
           <div class="col-md-4"></div>
           <div class="col-md-4">
-            <Timer time={this.state.time} />
+            <Timer time={this.state.time}  />
           </div>
         </div>
         <div class="row">&nbsp;</div>
@@ -209,11 +195,12 @@ class Pomodoro extends React.Component {
           <div class="col-md-4"></div>
           <StopButton stopCountDown={this.stopCountDown}/>
           <StartButton startCountDown={this.startCountDown} />
-          <ResetButton resetSession={this.resetSession} resetLongBreak={this.resetLongBreak} resetShortBreak={this.resetShortBreak}/>
+          {/* <ResetButton resetSession={this.resetSession}/> */}
 
         </div>
       </div>
     );
+  
   }
 
 }
