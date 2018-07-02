@@ -11,7 +11,7 @@ class Timer extends React.Component {
 
     return (
       <div>
-        <h1 style={{ fontSize: 100 }}>{this.props.time }:{this.props.seconds}</h1>
+        <h1 style={{ fontSize: 100 }}>{this.props.time}:{this.props.seconds}</h1>
 
       </div>
     );
@@ -21,7 +21,7 @@ class Timer extends React.Component {
 }
 
 class LongBreak extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
   render() {
@@ -35,7 +35,7 @@ class LongBreak extends React.Component {
 }
 
 class Session extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
   render() {
@@ -50,7 +50,7 @@ class Session extends React.Component {
 
 class ShortBreak extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
@@ -82,35 +82,25 @@ class StartButton extends React.Component {
 class StopButton extends React.Component {
   render() {
     return (
-      <div style={{ marginRight: 5, marginLeft:30 }}>
+      <div style={{ marginRight: 5, marginLeft: 30 }}>
         <button className="btn btn-danger" onClick={this.props.stopCountDown}>Stop</button>
       </div>
     );
   }
 }
 
-// class ResetButton extends React.Component {
-//   render() {
-//     return (
-//       <div>
-//         <button className="btn btn-secondary" onClick={this.props.resetSession}>Reset</button>
-//       </div>
-//     );
-//   }
 
-
-// }
 
 class Pomodoro extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time : '01',
-      longBreakTime : 10,
-      shortBreakTime : '05',
-      seconds : '00',
-      
-    
+      time: 25,
+      longBreakTime: 10,
+      shortBreakTime: '05',
+      seconds: '00',
+
+
     }
     this.intervalHandle;
     this.secondsRemaining;
@@ -121,114 +111,120 @@ class Pomodoro extends React.Component {
     this.stopCountDown = this.stopCountDown.bind(this);
     this.resetSession = this.resetSession.bind(this);
     this.tick = this.tick.bind(this);
-    
+
   }
 
- tick(){
+  tick() {
 
- 
-   var min = Math.floor(this.secondsRemaining / 60);
-   var sec = this.secondsRemaining - (min * 60);
-   console.log(min);
-   console.log(sec);
 
-   this.setState({
-     time : min,
-     seconds : sec,
-   })
+    var min = Math.floor(this.secondsRemaining / 60);
+    var sec = this.secondsRemaining - (min * 60);
 
-   if(sec < 10){
     this.setState({
-     seconds : "0" + this.state.seconds,
+      time: min,
+      seconds: sec,
     })
- 
-   }
 
-   if(min < 10){
-    this.setState({
-     time : "0" + min,
-    })
- 
-   }
+    if (sec < 10) {
+      this.setState({
+        seconds: "0" + this.state.seconds,
+      })
 
-   if(min == 0 & sec == 0){
-       clearInterval(this.intervalHandle);
-   }
+    }
+
+    if (min < 10) {
+      this.setState({
+        time: "0" + min,
+      })
+
+    }
+
+    if (min === 0 & sec === 0) {
+      clearInterval(this.intervalHandle);
+    }
 
 
-   this.secondsRemaining--
+    this.secondsRemaining--
 
-  
-  
-   
-  
-  
- }
 
- 
+
+
+
+
+  }
+
+
   startCountDown() {
-      this.intervalHandle =  setInterval(this.tick, 1000);
-      let time = this.state.time;
-      this.secondsRemaining = time * 60;
+    this.intervalHandle = setInterval(this.tick, 1000);
+    let time = this.state.time;
+    this.secondsRemaining = time * 60;
   }
 
-  stopCountDown(){
+  stopCountDown() {
     clearInterval(this.intervalHandle);
+    const presentTime = this.state.time;
+    const seconds = this.state.seconds;
+
+    console.log(presentTime);
+    console.log(seconds);
   }
 
-  resetSession(){
-  
+  resetSession() {
+
   }
 
-  
-  shortBreak(){
+
+  shortBreak() {
     this.setState({
-      time: '05'
+      time: '05',
+      seconds: '00'
     })
   }
 
- longBreak(){
-  this.setState({
-    time : 10,
-  })
- }
+  longBreak() {
+    this.setState({
+      time: 10,
+      seconds: '00'
+    })
+  }
 
- session(){
-  this.setState({
-    time : 25,
-  })
- }
+  session() {
+    this.setState({
+      time: 25,
+      seconds: '00'
+    })
+  }
 
- 
+
 
 
   render() {
-   
+
     return (
       <div>
-        <div class="row" style={{ paddingTop: 100, paddingLeft:100 }}>
+        <div class="row" style={{ paddingTop: 100, paddingLeft: 100 }}>
           <div></div>
-          <ShortBreak shortBreak={this.shortBreak}/>
+          <ShortBreak shortBreak={this.shortBreak} />
           <Session session={this.session} />
-          <LongBreak longBreak={this.longBreak}/>
+          <LongBreak longBreak={this.longBreak} />
         </div>
         <div class="row" style={{ paddingLeft: 50 }}>
           <div class="col-md-4"></div>
           <div class="col-md-4">
-            <Timer time={this.state.time} seconds={this.state.seconds}  />
+            <Timer time={this.state.time} seconds={this.state.seconds} />
           </div>
         </div>
         <div class="row">&nbsp;</div>
         <div class="row" style={{ paddingLeft: 100 }}>
           <div class="col-md-4"></div>
-          <StopButton stopCountDown={this.stopCountDown}/>
+          <StopButton stopCountDown={this.stopCountDown} />
           <StartButton startCountDown={this.startCountDown} />
-          {/* <ResetButton resetSession={this.resetSession}/> */}
+
 
         </div>
       </div>
     );
-  
+
   }
 
 }
