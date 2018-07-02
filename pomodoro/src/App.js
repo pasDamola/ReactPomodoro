@@ -109,7 +109,6 @@ class Pomodoro extends React.Component {
     this.session = this.session.bind(this);
     this.startCountDown = this.startCountDown.bind(this);
     this.stopCountDown = this.stopCountDown.bind(this);
-    this.resetSession = this.resetSession.bind(this);
     this.tick = this.tick.bind(this);
 
   }
