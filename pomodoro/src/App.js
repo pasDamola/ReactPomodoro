@@ -116,7 +116,6 @@ class Pomodoro extends React.Component {
 
   tick() {
 
-
     var min = Math.floor(this.secondsRemaining / 60);
     var sec = this.secondsRemaining - (min * 60);
 
@@ -145,12 +144,6 @@ class Pomodoro extends React.Component {
 
 
     this.secondsRemaining--
-
-
-
-
-
-
   }
 
 
@@ -162,17 +155,7 @@ class Pomodoro extends React.Component {
 
   stopCountDown() {
     clearInterval(this.intervalHandle);
-    const presentTime = this.state.time;
-    const seconds = this.state.seconds;
-
-    console.log(presentTime);
-    console.log(seconds);
   }
-
-  resetSession() {
-
-  }
-
 
   shortBreak() {
     this.setState({
